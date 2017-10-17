@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.wb</groupId>
-  <artifactId>netty_long</artifactId>
+  <artifactId>netty_long_proto</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 

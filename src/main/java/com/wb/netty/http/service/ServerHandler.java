@@ -52,7 +52,12 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object> {
 		byteBuf.readBytes(bytes);
 		String content = new String(bytes);
 		System.out.println("接收到数据是："+content);
-		responseMsg(METHOD_NOT_ALLOWED, "OK",ctx);
+		if("test".equals(content)){
+			responseMsg(METHOD_NOT_ALLOWED, "test ok",ctx);
+		}else{
+			responseMsg(METHOD_NOT_ALLOWED, "哈哈哈。。。",ctx);
+		}
+		
 	}
 	
 	public void responseMsg(HttpResponseStatus status,String msg,ChannelHandlerContext ctx) {

@@ -41,7 +41,9 @@ public class NettyService {
 	
 	public static void main(String[] args) {
 		try {
-			new NettyService().start("192.168.1.105", 8088);
+			String host = "127.0.0.1";
+			//String host = "192.168.1.105";
+			new NettyService().start(host, 8088);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

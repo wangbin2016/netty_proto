@@ -14,6 +14,9 @@ import java.util.Set;
  * 
  */
 public class NIOClient implements Runnable{
+
+	public static SocketChannel tempSocketChannel;
+	
 	// 通道管理器
 	private String host;
 	private int port;
@@ -39,6 +42,7 @@ public class NIOClient implements Runnable{
 		socketChannel.configureBlocking(false);
 		// 获得一个通道管理器
 		selector = Selector.open();
+		tempSocketChannel = socketChannel;
 		/*// 客户端连接服务器,其实方法执行并没有实现连接，需要在listen（）方法中调
 		// 用channel.finishConnect();才能完成连接
 		socketChannel.connect(new InetSocketAddress(ip, port));
@@ -55,8 +59,21 @@ public class NIOClient implements Runnable{
 	 */
 	public static void main(String[] args) throws IOException {
 		NIOClient client = new NIOClient();
-		client.initClient("wxjwb.nat123.net", 41186);
+		String host = "127.0.0.1";
+		int port = 8088;
+		//String host = "wxjwb.nat123.net";
+		//int port = 41186;
+		client.initClient(host, port);
 	    new Thread(client).start();
+	    
+	    while(tempSocketChannel != null){
+	    	try {
+				Thread.sleep(5000);
+				doWrite(tempSocketChannel,"哈哈");				
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+	    }
 		//client.listen();
 	}
 
@@ -176,6 +193,17 @@ public class NIOClient implements Runnable{
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public static void doWrite(SocketChannel sc,String mesg) throws IOException {
+		byte[] req = mesg.getBytes();
+		ByteBuffer wBuf = ByteBuffer.allocate(req.length);
+		wBuf.put(req);
+		wBuf.flip();
+		sc.write(wBuf);
+		if(!wBuf.hasRemaining()){
+			System.out.println("sund 2 server haha succeed");
 		}
 	}
 
